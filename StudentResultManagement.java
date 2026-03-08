@@ -20,7 +20,7 @@ public class StudentResultManagement extends JFrame {
     private JTextArea resultArea;
 
     public StudentResultManagement() {
-        setTitle("Student Result Management");
+        setTitle("Система учёта результатов студентов");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setSize(900, 620);
         setLocationRelativeTo(null);
@@ -44,7 +44,7 @@ public class StudentResultManagement extends JFrame {
         gbc.insets = new Insets(8, 8, 8, 8);
         gbc.fill = GridBagConstraints.HORIZONTAL;
 
-        JLabel title = new JLabel("Welcome to SRMS");
+        JLabel title = new JLabel("Добро пожаловать в СРС");
         title.setFont(new Font("SansSerif", Font.BOLD, 28));
         title.setForeground(new Color(43, 73, 122));
         gbc.gridx = 0;
@@ -52,7 +52,7 @@ public class StudentResultManagement extends JFrame {
         gbc.gridwidth = 2;
         card.add(title, gbc);
 
-        JLabel subtitle = new JLabel("Sign in to continue");
+        JLabel subtitle = new JLabel("Войдите, чтобы продолжить");
         subtitle.setFont(new Font("SansSerif", Font.PLAIN, 15));
         subtitle.setForeground(new Color(90, 90, 90));
         gbc.gridy = 1;
@@ -60,7 +60,7 @@ public class StudentResultManagement extends JFrame {
 
         gbc.gridwidth = 1;
         gbc.gridy = 2;
-        card.add(new JLabel("Username"), gbc);
+        card.add(new JLabel("Логин"), gbc);
 
         usernameField = new JTextField(16);
         gbc.gridx = 1;
@@ -68,13 +68,13 @@ public class StudentResultManagement extends JFrame {
 
         gbc.gridx = 0;
         gbc.gridy = 3;
-        card.add(new JLabel("Password"), gbc);
+        card.add(new JLabel("Пароль"), gbc);
 
         passwordField = new JPasswordField(16);
         gbc.gridx = 1;
         card.add(passwordField, gbc);
 
-        JButton loginButton = new JButton("Login");
+        JButton loginButton = new JButton("Войти");
         loginButton.setBackground(new Color(43, 73, 122));
         loginButton.setForeground(Color.WHITE);
         loginButton.setFocusPainted(false);
@@ -94,7 +94,7 @@ public class StudentResultManagement extends JFrame {
         main.setBorder(new EmptyBorder(15, 15, 15, 15));
         main.setBackground(new Color(245, 247, 250));
 
-        JLabel header = new JLabel("Student Result Dashboard");
+        JLabel header = new JLabel("Панель результатов студентов");
         header.setFont(new Font("SansSerif", Font.BOLD, 26));
         header.setForeground(new Color(32, 55, 92));
         main.add(header, BorderLayout.NORTH);
@@ -125,20 +125,20 @@ public class StudentResultManagement extends JFrame {
         scienceField = new JTextField();
         englishField = new JTextField();
 
-        addField(panel, gbc, 0, "Student Name", nameField);
-        addField(panel, gbc, 1, "Roll Number", rollField);
-        addField(panel, gbc, 2, "Math", mathField);
-        addField(panel, gbc, 3, "Science", scienceField);
-        addField(panel, gbc, 4, "English", englishField);
+        addField(panel, gbc, 0, "ФИО студента", nameField);
+        addField(panel, gbc, 1, "Номер зачётки", rollField);
+        addField(panel, gbc, 2, "Математика", mathField);
+        addField(panel, gbc, 3, "Наука", scienceField);
+        addField(panel, gbc, 4, "Английский", englishField);
 
         JPanel buttonRow = new JPanel(new GridLayout(1, 3, 8, 8));
         buttonRow.setOpaque(false);
 
-        JButton calculateButton = new JButton("Calculate");
+        JButton calculateButton = new JButton("Рассчитать");
         calculateButton.addActionListener(e -> calculateResult());
-        JButton saveButton = new JButton("Save");
+        JButton saveButton = new JButton("Сохранить");
         saveButton.addActionListener(e -> saveResult());
-        JButton viewButton = new JButton("View Saved");
+        JButton viewButton = new JButton("Показать сохранённые");
         viewButton.addActionListener(e -> viewResults());
 
         buttonRow.add(calculateButton);
@@ -160,7 +160,7 @@ public class StudentResultManagement extends JFrame {
         panel.setBackground(Color.WHITE);
         panel.setBorder(new EmptyBorder(20, 20, 20, 20));
 
-        JLabel title = new JLabel("Result Output");
+        JLabel title = new JLabel("Результат");
         title.setFont(new Font("SansSerif", Font.BOLD, 20));
         panel.add(title, BorderLayout.NORTH);
 
@@ -193,7 +193,7 @@ public class StudentResultManagement extends JFrame {
             return;
         }
 
-        JOptionPane.showMessageDialog(this, "Invalid credentials", "Login failed", JOptionPane.ERROR_MESSAGE);
+        JOptionPane.showMessageDialog(this, "Неверный логин или пароль", "Ошибка входа", JOptionPane.ERROR_MESSAGE);
     }
 
     private void calculateResult() {
@@ -203,23 +203,23 @@ public class StudentResultManagement extends JFrame {
             int english = Integer.parseInt(englishField.getText().trim());
 
             if (!isMarkValid(math) || !isMarkValid(science) || !isMarkValid(english)) {
-                JOptionPane.showMessageDialog(this, "Marks must be between 0 and 100.");
+                JOptionPane.showMessageDialog(this, "Оценки должны быть в диапазоне от 0 до 100.");
                 return;
             }
 
             int total = math + science + english;
             double percentage = total / 3.0;
-            String status = percentage >= 40 ? "PASS" : "FAIL";
+            String status = percentage >= 40 ? "СДАЛ" : "НЕ СДАЛ";
 
             resultArea.setText(
-                    "Student: " + nameField.getText().trim() + "\n" +
-                    "Roll No: " + rollField.getText().trim() + "\n\n" +
-                    "Total Marks : " + total + " / 300\n" +
-                    "Percentage  : " + String.format("%.2f", percentage) + "%\n" +
-                    "Final Result: " + status
+                    "Студент: " + nameField.getText().trim() + "\n" +
+                    "№ зачётки: " + rollField.getText().trim() + "\n\n" +
+                    "Сумма баллов: " + total + " / 300\n" +
+                    "Процент: " + String.format("%.2f", percentage) + "%\n" +
+                    "Итог: " + status
             );
         } catch (NumberFormatException ex) {
-            JOptionPane.showMessageDialog(this, "Please enter numeric marks only.");
+            JOptionPane.showMessageDialog(this, "Введите только числовые значения оценок.");
         }
     }
 
@@ -233,7 +233,7 @@ public class StudentResultManagement extends JFrame {
         String resultText = resultArea.getText().trim();
 
         if (name.isEmpty() || roll.isEmpty() || resultText.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Fill details and calculate result before saving.");
+            JOptionPane.showMessageDialog(this, "Заполните данные и сначала выполните расчёт.");
             return;
         }
 
@@ -241,17 +241,17 @@ public class StudentResultManagement extends JFrame {
             writer.write("--------------------------------------------------\n");
             writer.write(resultText + "\n");
             writer.flush();
-            JOptionPane.showMessageDialog(this, "Result saved.");
+            JOptionPane.showMessageDialog(this, "Результат сохранён.");
             clearFields();
         } catch (IOException ex) {
-            JOptionPane.showMessageDialog(this, "Could not save result file.");
+            JOptionPane.showMessageDialog(this, "Не удалось сохранить файл с результатами.");
         }
     }
 
     private void viewResults() {
         File file = new File(RESULTS_FILE);
         if (!file.exists()) {
-            JOptionPane.showMessageDialog(this, "No saved results found yet.");
+            JOptionPane.showMessageDialog(this, "Сохранённые результаты пока отсутствуют.");
             return;
         }
 
@@ -263,7 +263,7 @@ public class StudentResultManagement extends JFrame {
             }
             resultArea.setText(content.toString());
         } catch (IOException ex) {
-            JOptionPane.showMessageDialog(this, "Could not read result file.");
+            JOptionPane.showMessageDialog(this, "Не удалось прочитать файл с результатами.");
         }
     }
 
